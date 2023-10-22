@@ -1,4 +1,4 @@
-# SSH-Honeypot
+# Creating a Monitored SSH Honeypot
 
 This is a sort of storyboard of me creating my own SSH honeypot hooked up to a SIEM; it came with problems, but it was fun. :)
 
