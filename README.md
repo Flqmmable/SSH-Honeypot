@@ -14,9 +14,9 @@ I downloaded openssh-server on the Ubuntu Server and set up all the rules on pfS
 
 ## But then a problem! GCNAT :(
 
-When setting up SSH port forwarding on my ISP's proprietary router, I noticed that I no outside SSH traffic was being redirected to pfSense in order for it to reach the honeypot. After doing some research, I found out about GCNAT (grade-carrier network address translation), and how most ISPs use it nowadays in order to cut the cost of providing publc IPs to their clients - it allows multiple clients to share the same public IP address. 
+When setting up SSH port forwarding on my ISP's proprietary router, I noticed that no outside SSH traffic was being redirected to pfSense in order for it to reach the honeypot. After doing some research, I found out about GCNAT (grade-carrier network address translation), and how most ISPs use it nowadays in order to cut the cost of providing publc IPs to their clients - it allows multiple clients to share the same public IP address. 
 
-With GCNAT, an ISP groups together a set amount of their clients so that the WAN side of the client's home router is actually connected to an internal network which is shared by the rest of the clients in the same 'group'. At the 'far side' of this network, the ISP's router conducts NAT (PAT rather I assume) to give the client's in the group the same public IP address while still keeping track of which traffic needs to go to which client. With this in mind, it then becomes an impossibility that you can get SSH (or any type of) traffic to be sent to your home router because how is the ISP's router supposed to know which client send it to. Of course, if your ISP is kind enough, they could set up a port forwarding rule on their router to send particular traffic to your home router; but what if two or more clients want SSH to be sent to their router? See, it just wouldn't work out!
+With GCNAT, an ISP groups together a set amount of their clients so that the WAN side of their client's home router is actually connected to an internal network which is shared by the rest of the clients in the same 'group'. At the 'far side' of this network, the ISP's router conducts NAT (PAT rather I assume) to give the clients in the same group the same public IP address while still keeping track of which traffic needs to go to which client. With this in mind, it then becomes an impossibility that you can get SSH (or any type of) traffic to be sent to your home router because how is the ISP's router supposed to know which client to send it to. Of course, if your ISP is kind enough, they could set up a port forwarding rule on their router to send particular traffic to your home router; but what if two or more clients want SSH to be sent to their router? See, it just wouldn't work out!
 
 If you don't want to read what I wrote, in summary, GCNAT is port forwarding's worst nightmare 😂 and if you want to get rid of it, you'll have to pay your ISP to opt out of it and get a reserved public IP address - or 'business address' as they call it.
 
@@ -24,7 +24,7 @@ If you don't want to read what I wrote, in summary, GCNAT is port forwarding's w
 
 I would of liked the idea of having a honeypot set up on my own network, but oh well; I decided to go with cloud computing - more specifically, using AWS's EC2 for an Ubuntu Server.
 
-EC2 was a good choice as it comes with a free tier option - with limited RAM and CPU power of course. The only issue I encounter was that, by default, you have to use key pairs to SSH (log into) your VPS; this was bad for me as I wanted to be able to see which usernames and passwords a threat actor tries to log in with. I overcame this problem by simplying enabling password authentication in the "sshd_config" file. 
+EC2 was a good choice as it comes with a free tier option - with limited RAM and CPU power of course. The only issue I encountered was that, by default, you have to use key pairs to SSH (log into) your VPS; this was bad for me as I wanted to be able to see which usernames and passwords a threat actor tries to log in with. I overcame this problem by simplying enabling password authentication in the "sshd_config" file. 
 
 ![image](https://github.com/Flqmmable/SSH-Honeypot/assets/129753283/ef685ebc-d5ca-4d2c-9959-b41e996f2cde)
 
@@ -36,11 +36,11 @@ All that was left to do is hook it up with a SIEM; I chose Splunk to do this. I 
 
 As you can see, by running a simple query looking for any failed SSH logins, I can see, well.. failed SSH logins! I wanted to do more than this though; I wanted to create some sort of visualisation that shows where login attempts are coming from. 
 
-But default, Splunk was not recongnising a "source IP" field so I had to use the "erex" command to allow Splunk to create a field for the source IP and pull out source IPs from the _raw field. 
+By default, Splunk was not recongnising a "source IP" field so I had to use the "erex" command to allow Splunk to create a field for source IPs and pull out source IPs from the _raw field. 
 
 ![image](https://github.com/Flqmmable/SSH-Honeypot/assets/129753283/fa80a761-653d-4dc5-b006-34f82daf3639)
 
-Eventually, I created a chloropleth map which visualises (on a map of the world) where SSH login attempts are originating from. Currently, the only SSH attempts are from me which is shown by the highlighted Australia.
+Eventually, I created a chloropleth map which visualises (on a map of the world) where SSH login attempts are originating from. Currently, the only SSH attempts are from me which is shown by the highlighted "Australia".
 
 ![image](https://github.com/Flqmmable/SSH-Honeypot/assets/129753283/7926ec7e-ea96-4933-97f0-16e71f706c5a)
 
@@ -50,7 +50,7 @@ When you hover over a portion of the map, it shows you the count of attempts ori
 
 ## Conclusion
 
-This text is just for documenting this cyber project of mine, but if someone is reading this, I hope you found it somewhat interesting :)
+This repo is just for documenting this cyber project of mine, but if someone is reading this, I hope you found it somewhat interesting :)
 
 Since this is a honeypot, if I do get some attempts from potential attackers, I will be uploading screenshots of the Splunk visualisation for documentation purposes! 
 
