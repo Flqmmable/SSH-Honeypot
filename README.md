@@ -4,7 +4,7 @@ This is a sort of storyboard of me creating my own SSH honeypot hooked up to a S
 
 Originally, I wanted to host a honeypot on my own home network so I thought of different network topologies that would have the least effect on my current home devices; I came up with this.
 
-![image](https://github.com/Flqmmable/SSH-Honeypot/assets/129753283/ad3e34a8-4fd7-4983-93f3-61b8a251edfd)
+![image](https://github.com/Flqmmable/SSH-Honeypot/assets/129753283/d6214c80-6db8-4818-a628-6b94ae2afaf2)
 
 I would set up port forwarding (or so I thought) on my home router, and create rules of pfSense to allow traffic to reach the honeypot but block any traffic orginating from the honeypot from going to my internal home network - obviously to prevent a threat actor from moving laterally to my home devices.
 
