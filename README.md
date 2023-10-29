@@ -56,6 +56,13 @@ Since this is a honeypot, if I do get some attempts from potential attackers, I 
 
 Cya!
 
+## First (and final) Update
+
+My splunk cloud license expired so unfortunately I cannot access the visualisationl; however, I can kind of remember how many attacks I got:
+
+- Around 300 attacks with the top countries being the US and Thailand.
+- Keep in mind that the attacks could be from the same person as it counts by IP address.
+
 
 
 
